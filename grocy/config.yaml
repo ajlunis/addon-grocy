@@ -15,6 +15,7 @@ arch:
   - amd64
   - armv7
 map:
+  - addon_config:rw
   - ssl
 ports:
   80/tcp: null
