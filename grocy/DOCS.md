@@ -1,4 +1,4 @@
-# Home Assistant Community Add-on: Grocy
+# Home Assistant Community Add-on: Grocy (ajlunis-Tweaks)
 
 [Grocy][grocy] - ERP beyond your fridge is a powerful groceries & household
 management solution for your home, delivering features like:
