@@ -6,7 +6,6 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base
-ARG GROCY_VERSION="v4.4.2"
 # hadolint ignore=DL3003
 RUN \
     apk add --no-cache \
@@ -36,8 +35,8 @@ RUN \
     \
     && yarn global add modclean \
     \
-    && git clone --branch "${GROCY_VERSION}" --depth=1 \
-        https://github.com/grocy/grocy.git /var/www/grocy \
+    && git clone --depth=1 \
+        https://github.com/ajlunis/grocy.git /var/www/grocy \
     \
     && cd /var/www/grocy \
     \
