@@ -70,7 +70,7 @@ RUN \
 
 # Copy root filesystem
 COPY rootfs /
-
+RUN chmod +x /etc/cont-init.d/99-data-migration.sh
 # Build arguments
 ARG BUILD_ARCH
 ARG BUILD_DATE
