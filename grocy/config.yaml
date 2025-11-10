@@ -1,6 +1,6 @@
 ---
 name: Grocy-ajlunis
-version: 4.5.0.0.5
+version: 4.5.0.0.6
 slug: grocy-ajlunis
 description: ajlunis-tweaks ERP beyond your fridge! A groceries & household management solution for your home
 url: https://github.com/ajlunis/addon-grocy
@@ -8,8 +8,9 @@ codenotary: codenotary@frenck.dev
 ingress: true
 ingress_stream: true
 init: false
+panel_title: "Grocy"
 panel_icon: mdi:cart
-panel_admin: false
+panel_admin: true
 arch:
   - aarch64
   - amd64
