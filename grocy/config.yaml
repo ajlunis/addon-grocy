@@ -8,7 +8,7 @@ codenotary: codenotary@frenck.dev
 ingress: true
 ingress_stream: true
 init: false
-panel_title: "Grocy"
+panel_title: Grocy
 panel_icon: mdi:cart
 panel_admin: true
 arch:
