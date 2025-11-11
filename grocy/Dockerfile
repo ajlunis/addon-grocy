@@ -5,9 +5,14 @@ FROM ${BUILD_FROM}
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# Build arguments
+ARG BUILD_VERSION
+
 # Setup base
 # hadolint ignore=DL3003
 RUN \
+    echo "Busting cache with version ${BUILD_VERSION}" \
+    && \
     apk add --no-cache \
         composer=2.7.7-r0 \
         nginx=1.24.0-r16 \
