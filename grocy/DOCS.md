@@ -201,6 +201,8 @@ equal Sunday:
 
 These options are used to configure the label printer integration in Grocy.
 
+**Note**: To use this feature, you must have a separate label printing service that can receive webhooks from Grocy. When enabled, a "Print Product Grocycode on label printer" button will appear in the dropdown menu for each product on the stock overview page.
+
 - `webhook`: The URI that Grocy will POST to when asked to print a label.
 - `run_server`: Whether the webhook will be called server- or client-side. Set to `true` for server-side, `false` for client-side.
 - `params`: Additional parameters supplied to the webhook. This should be a JSON formatted string. For example: `'{"font_family":"Source Sans Pro (Regular)"}'`.
