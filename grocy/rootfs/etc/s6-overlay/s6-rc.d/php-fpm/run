@@ -51,15 +51,15 @@ if bashio::config.true 'features.label_printer'; then
     export GROCY_LABEL_PRINTER_WEBHOOK
     GROCY_LABEL_PRINTER_WEBHOOK=$(bashio::config 'label_printer.webhook')
 
-    # This is a bit of a hack, but it's the only way to get the params array into Grocy
-    # The environment variable is a string, and Grocy doesn't parse it into an array
-    # So we're just going to write it directly to the config file
-    local params
-    params=$(bashio::config 'label_printer.params' | jq -r 'to_entries | map("	\"\(.key)\" => \"\(.value)\"") | .[] | "\(.   )"' | sed 's/^/    /g')
-    echo "" >> /data/grocy/config.php
-    echo "Setting('LABEL_PRINTER_PARAMS', [" >> /data/grocy/config.php
-    echo "${params}" >> /data/grocy/config.php
-    echo "]);" >> /data/grocy/config.php
+    # Use settingoverrides to handle the params array
+    mkdir -p /data/grocy/settingoverrides
+    params_php=$(bashio::config 'label_printer.params' | jq -r 'to_entries | map("    \"\(.key)\" => \"\(.value)\"") | .[]')
+
+    cat > /data/grocy/settingoverrides/LABEL_PRINTER_PARAMS.txt <<EOF
+[
+${params_php}
+]
+EOF
 
     if bashio::config.true 'label_printer.run_server'; then
         export GROCY_LABEL_PRINTER_RUN_SERVER=1
