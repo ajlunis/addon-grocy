@@ -205,7 +205,7 @@ These options are used to configure the label printer integration in Grocy.
 
 - `webhook`: The URI that Grocy will POST to when asked to print a label.
 - `run_server`: Whether the webhook will be called server- or client-side. Set to `true` for server-side, `false` for client-side.
-- `params`: Additional parameters supplied to the webhook. This should be a JSON formatted string. For example: `{"font_family":"Source Sans Pro (Regular)"}`. Note that the addon will automatically convert this to the correct format for Grocy, so you should not include any special characters or escaping.
+- `params`: Additional parameters supplied to the webhook. This should be a JSON formatted string. For example: `{"font_family":"Source Sans Pro (Regular)"}`.
 - `hook_json`: `true` to use JSON or `false` to use normal POST request variables.
 
 Example configuration:
