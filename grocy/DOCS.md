@@ -171,6 +171,7 @@ or disabled:
 - `shoppinglist`
 - `stock`
 - `tasks`
+- `label_printer`
 
 Set it `true` to enable it, `false` otherwise.
 
@@ -195,6 +196,25 @@ equal Sunday:
 
 - `calendar_first_day_of_week`
 - `meal_plan_first_day_of_week`
+
+### Option: `label_printer`
+
+These options are used to configure the label printer integration in Grocy.
+
+- `webhook`: The URI that Grocy will POST to when asked to print a label.
+- `run_server`: Whether the webhook will be called server- or client-side. Set to `true` for server-side, `false` for client-side.
+- `params`: Additional parameters supplied to the webhook. This should be a JSON formatted string. For example: `'{"font_family":"Source Sans Pro (Regular)"}'`.
+- `hook_json`: `true` to use JSON or `false` to use normal POST request variables.
+
+Example configuration:
+
+```yaml
+label_printer:
+  webhook: "http://your-label-printer-service/print"
+  run_server: true
+  params: '{"font_size": "20px"}'
+  hook_json: true
+```
 
 ### Option: `grocy_ingress_user`
 

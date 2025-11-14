@@ -35,6 +35,12 @@ options:
     shoppinglist: true
     stock: true
     tasks: true
+    label_printer: false
+  label_printer:
+    webhook: ""
+    run_server: true
+    params: '{"font_family":"Source Sans Pro (Regular)"}'
+    hook_json: true
   tweaks:
     chores_assignment: true
     multiple_shopping_lists: true
@@ -62,6 +68,12 @@ schema:
     shoppinglist: bool
     stock: bool
     tasks: bool
+    label_printer: bool
+  label_printer:
+    webhook: str?
+    run_server: bool
+    params: str?
+    hook_json: bool
   tweaks:
     calendar_first_day_of_week: int(0,6)?
     chores_assignment: bool
