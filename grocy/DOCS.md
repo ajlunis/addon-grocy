@@ -171,7 +171,6 @@ or disabled:
 - `shoppinglist`
 - `stock`
 - `tasks`
-- `label_printer`
 
 Set it `true` to enable it, `false` otherwise.
 
@@ -197,32 +196,21 @@ equal Sunday:
 - `calendar_first_day_of_week`
 - `meal_plan_first_day_of_week`
 
-### Option: `label_printer`
-
-These options are used to configure the label printer integration in Grocy.
-
-**Note**: To use this feature, you must have a separate label printing service that can receive webhooks from Grocy. When enabled, a "Print Product Grocycode on label printer" button will appear in the dropdown menu for each product on the stock overview page.
-
-- `webhook`: The URI that Grocy will POST to when asked to print a label.
-- `run_server`: Whether the webhook will be called server- or client-side. Set to `true` for server-side, `false` for client-side.
-- `params`: Additional parameters supplied to the webhook. This should be a JSON formatted string. For example: `{"font_family":"Source Sans Pro (Regular)"}`.
-- `hook_json`: `true` to use JSON or `false` to use normal POST request variables.
-
-Example configuration:
-
-```yaml
-label_printer:
-  webhook: "http://your-label-printer-service/print"
-  run_server: true
-  params: '{"font_size": "20px"}'
-  hook_json: true
-```
-
 ### Option: `grocy_ingress_user`
 
 Allows you to specify a default ingress user if desired (e.g. `admin`).
 
-If no ingress user is set, the default login authentication is used.
+If no ingress user is set, the aefault login authentication is used.
+
+## Advanced Configuration
+
+It is possible to configure any Grocy setting by manually editing the `config.php` file. This allows you to set options that are not exposed in the addon's configuration UI.
+
+1.  **Find the setting:** A full list of available settings can be found in the [`config-dist.php`](https://github.com/ajlunis/grocy/blob/release/config-dist.php) file.
+2.  **Locate your `config.php`:** This file is located in the `addon_configs` directory on your Home Assistant host. The full path will be similar to `addon_configs/<slug>/grocy_data/config.php`.
+3.  **Add the setting:** Add the `Setting('SETTING_NAME', 'value');` to the end of the file.
+
+**Important:** Do not add settings to `config.php` that are already managed by the addon's configuration UI. This will cause conflicts and unexpected behavior.
 
 ## Known issues and limitations
 
