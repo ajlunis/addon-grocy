@@ -44,8 +44,8 @@ if bashio::config.false 'features.tasks'; then
     export GROCY_FEATURE_FLAG_TASKS=0
 fi
 
-if bashio::config.false 'features.label_printer'; then
-    export GROCY_FEATURE_FLAG_LABEL_PRINTER=0
+if bashio::config.true 'features.label_printer'; then
+    export GROCY_FEATURE_FLAG_LABEL_PRINTER=1
 fi
 
 if bashio::config.has_value 'tweaks.calendar_first_day_of_week'; then
