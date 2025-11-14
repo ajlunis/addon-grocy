@@ -44,8 +44,27 @@ if bashio::config.false 'features.tasks'; then
     export GROCY_FEATURE_FLAG_TASKS=0
 fi
 
+# Label Printer Settings
 if bashio::config.true 'features.label_printer'; then
     export GROCY_FEATURE_FLAG_LABEL_PRINTER=1
+
+    export GROCY_LABEL_PRINTER_WEBHOOK
+    GROCY_LABEL_PRINTER_WEBHOOK=$(bashio::config 'label_printer.webhook')
+
+    export GROCY_LABEL_PRINTER_PARAMS
+    GROCY_LABEL_PRINTER_PARAMS=$(bashio::config 'label_printer.params')
+
+    if bashio::config.true 'label_printer.run_server'; then
+        export GROCY_LABEL_PRINTER_RUN_SERVER=1
+    else
+        export GROCY_LABEL_PRINTER_RUN_SERVER=0
+    fi
+
+    if bashio::config.true 'label_printer.hook_json'; then
+        export GROCY_LABEL_PRINTER_HOOK_JSON=1
+    else
+        export GROCY_LABEL_PRINTER_HOOK_JSON=0
+    fi
 fi
 
 if bashio::config.has_value 'tweaks.calendar_first_day_of_week'; then
@@ -88,24 +107,6 @@ fi
 
 if bashio::config.false 'tweaks.stock_count_opened_products_against_minimum_stock_amount'; then
     export GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT=0
-fi
-
-if bashio::config.has_value 'label_printer.webhook'; then
-    export GROCY_LABEL_PRINTER_WEBHOOK
-    GROCY_LABEL_PRINTER_WEBHOOK=$(bashio::config 'label_printer.webhook')
-fi
-
-if bashio::config.false 'label_printer.run_server'; then
-    export GROCY_LABEL_PRINTER_RUN_SERVER=0
-fi
-
-if bashio::config.has_value 'label_printer.params'; then
-    export GROCY_LABEL_PRINTER_PARAMS
-    GROCY_LABEL_PRINTER_PARAMS=$(bashio::config 'label_printer.params')
-fi
-
-if bashio::config.false 'label_printer.hook_json'; then
-    export GROCY_LABEL_PRINTER_HOOK_JSON=0
 fi
 
 GROCY_CULTURE=$(bashio::config "culture")
