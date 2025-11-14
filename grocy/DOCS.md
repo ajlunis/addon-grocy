@@ -52,6 +52,8 @@ tweaks:
   calendar_first_day_of_week: 0
   stock_price_tracking: true
   stock_location_tracking: true
+default_user_settings:
+  stock_due_soon_days: 10
 log_level: info
 ssl: false
 certfile: fullchain.pem
@@ -301,6 +303,61 @@ Here you can disable the parts which you don't need to have a less cluttered UI 
 
 - `disable_browser_barcode_camera_scanning`: Set this to true if you want to disable the ability to scan a barcode via the device camera (Browser API).
 - `auto_torch_on_with_camera`: Enables the torch automatically (if the device has one).
+
+### Option: `default_user_settings`
+
+These settings can be changed per user and via the UI, below are the defaults which are used when the user has not changed the setting so far.
+
+- `night_mode`: "on" = Night mode is always on ; "off" = Night mode is always off / "follow-system" = System preferred color schema is used.
+- `auto_night_mode_enabled`: If night mode is enabled automatically when inside a given time range.
+- `auto_night_mode_time_range_from`: Format HH:mm.
+- `auto_night_mode_time_range_to`: Format HH:mm.
+- `auto_night_mode_time_range_goes_over_midnight`: If the time range above goes over midnight.
+- `night_mode_enabled_internal`: Internal setting if night mode is actually enabled (based on the other settings).
+- `auto_reload_on_db_change`: If the page should be automatically reloaded when there was an external change.
+- `show_clock_in_header`: Show a clock in the header next to the logo or not.
+- `keep_screen_on`: If the screen should always be kept on.
+- `keep_screen_on_when_fullscreen_card`: If the screen should be kept on when a "fullscreen-card" is displayed.
+- `product_presets_location_id`: Default location id for new products (-1 means no location is preset).
+- `product_presets_product_group_id`: Default product group id for new products (-1 means no product group is preset).
+- `product_presets_qu_id`: Default quantity unit id for new products (-1 means no quantity unit is preset).
+- `product_presets_default_due_days`: Default due days for new products (-1 means that the product will be never overdue).
+- `product_presets_treat_opened_as_out_of_stock`: Default "Treat opened as out of stock" option for new products.
+- `product_presets_default_stock_label_type`: "Default stock entry label" option for new products (0 = No label, 1 = Single Label, 2 = Label per unit).
+- `stock_decimal_places_amounts`: Default decimal places allowed for amounts.
+- `stock_decimal_places_prices_input`: Default decimal places allowed for prices (input).
+- `stock_decimal_places_prices_display`: Default decimal places allowed for prices (display).
+- `stock_auto_decimal_separator_prices`: If the decimal separator should be set automatically for amount inputs.
+- `stock_due_soon_days`: The "expiring soon" days.
+- `stock_default_purchase_amount`: The default amount prefilled on the purchase page.
+- `stock_default_consume_amount`: The default amount prefilled on the consume page.
+- `stock_default_consume_amount_use_quick_consume_amount`: If the products quick consume amount should be prefilled on the consume page.
+- `scan_mode_consume_enabled`: If scan mode on the consume page is enabled.
+- `scan_mode_purchase_enabled`: If scan mode on the purchase page is enabled.
+- `show_icon_on_stock_overview_page_when_product_is_on_shopping_list`: When enabled, an icon is shown on the stock overview page (next to the product name) when the prodcut is currently on a shopping list.
+- `stock_overview_show_all_out_of_stock_products`: By default the stock overview page lists all products which are currently in stock or below their min. stock amount - when this is enabled, all (active) products are always shown.
+- `show_purchased_date_on_purchase`: Whether the purchased date should be editable on purchase (defaults to today otherwise).
+- `show_warning_on_purchase_when_due_date_is_earlier_than_next`: Show a warning on purchase when the due date of the purchased product is earlier than the next due date in stock.
+- `shopping_list_to_stock_workflow_auto_submit_when_prefilled`: Automatically do the booking using the last price and the amount of the shopping list item, if the product has "Default due days" set.
+- `shopping_list_show_calendar`: When enabled, a small (month view) calendar will be shown on the shopping list page.
+- `shopping_list_round_up`: When enabled, all quantity amounts on the shopping list are always displayed rounded up to the nearest whole number.
+- `shopping_list_auto_add_below_min_stock_amount`: If products should be automatically added to the shopping list when they are below their min. stock amount.
+- `shopping_list_auto_add_below_min_stock_amount_list_id`: When the above setting is enabled, the id of the shopping list to which the products will be added.
+- `shopping_list_print_show_header`: Default for the shopping list print option "Show header".
+- `shopping_list_print_group_by_product_group`: Default for the shopping list print option "Group by product group".
+- `shopping_list_print_layout_type`: Default for the shopping list print option "Layout type" (table or list).
+- `recipe_ingredients_group_by_product_group`: Group recipe ingredients by their product group.
+- `recipes_show_list_side_by_side`: If the recipe should be displayed next to recipe list on the recipes page.
+- `recipes_show_ingredient_checkbox`: When enabled, a little checkbox will be shown next to each ingredient to mark it as done.
+- `chores_due_soon_days`: The "due soon" days.
+- `chores_overview_swap_tracking_buttons`: When enabled, the "Track next chore schedule" and "Track chore execution now" buttons/menu items are swapped.
+- `batteries_due_soon_days`: The "due soon" days.
+- `tasks_due_soon_days`: The "due soon" days.
+- `calendar_color_products`: The event color (hex code) for due products.
+- `calendar_color_tasks`: The event color (hex code) for due tasks.
+- `calendar_color_chores`: The event color (hex code) for due chores.
+- `calendar_color_batteries`: The event color (hex code) for due battery charge cycles.
+- `calendar_color_meal_plan`: The event color (hex code) for meal plan items.
 
 ### Option: `grocy_ingress_user`
 
