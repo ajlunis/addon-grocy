@@ -49,11 +49,14 @@ features:
   stock: true
   tasks: true
 tweaks:
-  calendar_first_day_of_week: 0
-  stock_price_tracking: true
+  chores_assignment: true
+  multiple_shopping_lists: true
+  stock_best_before_date_tracking: true
   stock_location_tracking: true
-default_user_settings:
-  stock_due_soon_days: 10
+  stock_price_tracking: true
+  stock_product_freezing: true
+  stock_product_opened_tracking: true
+  stock_count_opened_products_against_minimum_stock_amount: true
 log_level: info
 ssl: false
 certfile: fullchain.pem
@@ -154,140 +157,29 @@ You can use the one of the following values:
 
 By default the homepage is set to the stock overview.
 
-### Option: `mode`
-
-Either "production", "dev", "demo" or "prerelease". When not "production", the application will work in a demo mode which means authentication is disabled and some demo data will be generated during the database schema migration.
-
-### Option: `calendar_show_week_of_year`
-
-If calendars should show week numbers.
-
-### Option: `energy_unit`
-
-Your preferred unit for energy. E.g. "kcal" or "kJ" or something else (doesn't really matter, it's only used to display energy values).
-
-### Option: `base_path`
-
-When running Grocy in a subdirectory, this should be set to the relative path, otherwise empty. It needs to be set to the part (of the URL) AFTER the document root, if URL rewriting is disabled, including index.php.
-
-### Option: `base_url`
-
-The base URL of your installation, should be just "/" when running directly under the root of a (sub)domain or for example "https://example.com/grocy" when using a subdirectory.
-
-### Option: `stock_barcode_lookup_plugin`
-
-The plugin to use for external barcode lookups, must be the filename (folder "/plugins" for built-in plugins or "/data/plugins" for user plugins) without the .php extension. Leave empty to disable external barcode lookups.
-
-### Option: `disable_url_rewriting`
-
-If your webserver does not support URL rewriting, set this to true.
-
-### Option: `disable_auth`
-
-Set this to true if you want to disable authentication / the login screen, places where user context is needed will then use the default (first existing) user.
-
-### Option: `auth_class`
-
-Either "Grocy\\Middleware\\DefaultAuthMiddleware", "Grocy\\Middleware\\ReverseProxyAuthMiddleware" or any class that implements Grocy\\Middleware\\AuthMiddleware.
-
-### Option: `reverse_proxy_auth_header`
-
-The name of the HTTP header which your reverse proxy uses to pass the username (on successful authentication).
-
-### Option: `reverse_proxy_auth_use_env`
-
-Set to true if the username is passed as environment variable.
-
-### Option: `ldap_address`
-
-Example value "ldap://vm-dc2019.local.berrnd.net"
-
-### Option: `ldap_base_dn`
-
-Example value "DC=local,DC=berrnd,DC=net"
-
-### Option: `ldap_bind_dn`
-
-Example value "CN=grocy_bind_account,OU=service_accounts,DC=local,DC=berrnd,DC=net"
-
-### Option: `ldap_bind_pw`
-
-Password for the above account.
-
-### Option: `ldap_user_filter`
-
-Example value "(OU=grocy_users)"
-
-### Option: `ldap_uid_attr`
-
-Windows AD: "sAMAccountName", OpenLDAP: "uid", GLAuth: "cn"
-
-### Option: `default_permissions`
-
-Default permissions for new users. The array needs to contain the technical/constant names. See the file controllers/Users/User.php for possible values.
-
-### Option: `grocycode_type`
-
-"1D" (=> Code128) or "2D" (=> DataMatrix).
-
-### Option: `label_printer_webhook`
-
-The URI that Grocy will POST to when asked to print a label.
-
-### Option: `label_printer_run_server`
-
-Whether the webhook will be called server- or client-side.
-
-### Option: `label_printer_params`
-
-Additional parameters supplied to the webhook.
-
-### Option: `label_printer_hook_json`
-
-TRUE to use JSON or FALSE to use normal POST request variables.
-
-### Option: `tprinter_is_network_printer`
-
-Set to true if it's a network printer.
-
-### Option: `tprinter_print_quantity_name`
-
-Set to false if you do not want to print the quantity names (related to the shopping list).
-
-### Option: `tprinter_print_notes`
-
-Set to false if you do not want to print notes (related to the shopping list).
-
-### Option: `tprinter_ip`
-
-IP of the network printer (does only matter if it's a network printer).
-
-### Option: `tprinter_port`
-
-Port of the network printer (does only matter if it's a network printer).
-
-### Option: `tprinter_connector`
-
-Printer device (does only matter if you use a locally attached printer). For USB on Linux this is often '/dev/usb/lp0', for serial printers it could be similar to '/dev/ttyS0'. Make sure that the user that runs the webserver has permissions to write to the printer - on Linux add your webserver user to the LP group with usermod -a -G lp www-data.
-
 ### Option: `features`
 
-Here you can disable the parts which you don't need to have a less cluttered UI (set the setting to "false" to disable the corresponding part, which should be self explanatory).
-- `stock`
-- `shoppinglist`
-- `recipes`
-- `chores`
-- `tasks`
+Is used for enable or disable features in Grocy. Disabled features
+are hidden from the web interface. The following features can be enabled
+or disabled:
+
 - `batteries`
-- `equipment`
 - `calendar`
-- `label_printer`
+- `chores`
+- `equipment`
+- `recipes`
+- `shoppinglist`
+- `stock`
+- `tasks`
+
+Set it `true` to enable it, `false` otherwise.
 
 ### Option: `tweaks`
 
-- `calendar_first_day_of_week`: This is used to define the first day of a week for calendar views, leave empty to use the locale default. Needs to be a number where Sunday = 0, Monday = 1 and so forth.
+These options are used to tweak part of the core behavior of Grocy.
+The following sub features can be enabled or disabled:
+
 - `chores_assignment`
-- `meal_plan_first_day_of_week`: Set this if you want to have a different start day for the weekly meal plan view, leave empty to use CALENDAR_FIRST_DAY_OF_WEEK. Needs to be a number where Sunday = 0, Monday = 1 and so forth. Can also be set to -1 to dynamically start the meal plan week on "today".
 - `multiple_shopping_lists`
 - `stock_best_before_date_tracking`
 - `stock_location_tracking`
@@ -295,69 +187,14 @@ Here you can disable the parts which you don't need to have a less cluttered UI 
 - `stock_product_freezing`
 - `stock_product_opened_tracking`
 - `stock_count_opened_products_against_minimum_stock_amount`
-- `stock_best_before_date_field_number_pad`: Activate the number pad in due date fields on (supported) mobile browsers.
-- `recipes_mealplan`
-- `thermal_printer`
 
-### Option: `feature_settings`
+Set it `true` to enable it, `false` otherwise.
 
-- `disable_browser_barcode_camera_scanning`: Set this to true if you want to disable the ability to scan a barcode via the device camera (Browser API).
-- `auto_torch_on_with_camera`: Enables the torch automatically (if the device has one).
+The following sub features can be set to specify a day (0-6), where 0 would
+equal Sunday:
 
-### Option: `default_user_settings`
-
-These settings can be changed per user and via the UI, below are the defaults which are used when the user has not changed the setting so far.
-
-- `night_mode`: "on" = Night mode is always on ; "off" = Night mode is always off / "follow-system" = System preferred color schema is used.
-- `auto_night_mode_enabled`: If night mode is enabled automatically when inside a given time range.
-- `auto_night_mode_time_range_from`: Format HH:mm.
-- `auto_night_mode_time_range_to`: Format HH:mm.
-- `auto_night_mode_time_range_goes_over_midnight`: If the time range above goes over midnight.
-- `night_mode_enabled_internal`: Internal setting if night mode is actually enabled (based on the other settings).
-- `auto_reload_on_db_change`: If the page should be automatically reloaded when there was an external change.
-- `show_clock_in_header`: Show a clock in the header next to the logo or not.
-- `keep_screen_on`: If the screen should always be kept on.
-- `keep_screen_on_when_fullscreen_card`: If the screen should be kept on when a "fullscreen-card" is displayed.
-- `product_presets_location_id`: Default location id for new products (-1 means no location is preset).
-- `product_presets_product_group_id`: Default product group id for new products (-1 means no product group is preset).
-- `product_presets_qu_id`: Default quantity unit id for new products (-1 means no quantity unit is preset).
-- `product_presets_default_due_days`: Default due days for new products (-1 means that the product will be never overdue).
-- `product_presets_treat_opened_as_out_of_stock`: Default "Treat opened as out of stock" option for new products.
-- `product_presets_default_stock_label_type`: "Default stock entry label" option for new products (0 = No label, 1 = Single Label, 2 = Label per unit).
-- `stock_decimal_places_amounts`: Default decimal places allowed for amounts.
-- `stock_decimal_places_prices_input`: Default decimal places allowed for prices (input).
-- `stock_decimal_places_prices_display`: Default decimal places allowed for prices (display).
-- `stock_auto_decimal_separator_prices`: If the decimal separator should be set automatically for amount inputs.
-- `stock_due_soon_days`: The "expiring soon" days.
-- `stock_default_purchase_amount`: The default amount prefilled on the purchase page.
-- `stock_default_consume_amount`: The default amount prefilled on the consume page.
-- `stock_default_consume_amount_use_quick_consume_amount`: If the products quick consume amount should be prefilled on the consume page.
-- `scan_mode_consume_enabled`: If scan mode on the consume page is enabled.
-- `scan_mode_purchase_enabled`: If scan mode on the purchase page is enabled.
-- `show_icon_on_stock_overview_page_when_product_is_on_shopping_list`: When enabled, an icon is shown on the stock overview page (next to the product name) when the prodcut is currently on a shopping list.
-- `stock_overview_show_all_out_of_stock_products`: By default the stock overview page lists all products which are currently in stock or below their min. stock amount - when this is enabled, all (active) products are always shown.
-- `show_purchased_date_on_purchase`: Whether the purchased date should be editable on purchase (defaults to today otherwise).
-- `show_warning_on_purchase_when_due_date_is_earlier_than_next`: Show a warning on purchase when the due date of the purchased product is earlier than the next due date in stock.
-- `shopping_list_to_stock_workflow_auto_submit_when_prefilled`: Automatically do the booking using the last price and the amount of the shopping list item, if the product has "Default due days" set.
-- `shopping_list_show_calendar`: When enabled, a small (month view) calendar will be shown on the shopping list page.
-- `shopping_list_round_up`: When enabled, all quantity amounts on the shopping list are always displayed rounded up to the nearest whole number.
-- `shopping_list_auto_add_below_min_stock_amount`: If products should be automatically added to the shopping list when they are below their min. stock amount.
-- `shopping_list_auto_add_below_min_stock_amount_list_id`: When the above setting is enabled, the id of the shopping list to which the products will be added.
-- `shopping_list_print_show_header`: Default for the shopping list print option "Show header".
-- `shopping_list_print_group_by_product_group`: Default for the shopping list print option "Group by product group".
-- `shopping_list_print_layout_type`: Default for the shopping list print option "Layout type" (table or list).
-- `recipe_ingredients_group_by_product_group`: Group recipe ingredients by their product group.
-- `recipes_show_list_side_by_side`: If the recipe should be displayed next to recipe list on the recipes page.
-- `recipes_show_ingredient_checkbox`: When enabled, a little checkbox will be shown next to each ingredient to mark it as done.
-- `chores_due_soon_days`: The "due soon" days.
-- `chores_overview_swap_tracking_buttons`: When enabled, the "Track next chore schedule" and "Track chore execution now" buttons/menu items are swapped.
-- `batteries_due_soon_days`: The "due soon" days.
-- `tasks_due_soon_days`: The "due soon" days.
-- `calendar_color_products`: The event color (hex code) for due products.
-- `calendar_color_tasks`: The event color (hex code) for due tasks.
-- `calendar_color_chores`: The event color (hex code) for due chores.
-- `calendar_color_batteries`: The event color (hex code) for due battery charge cycles.
-- `calendar_color_meal_plan`: The event color (hex code) for meal plan items.
+- `calendar_first_day_of_week`
+- `meal_plan_first_day_of_week`
 
 ### Option: `grocy_ingress_user`
 

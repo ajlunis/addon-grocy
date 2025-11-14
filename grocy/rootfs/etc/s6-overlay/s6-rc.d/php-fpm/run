@@ -6,139 +6,88 @@
 # ==============================================================================
 declare caldayweek
 declare mealday
+export GROCY_CULTURE
+export GROCY_CURRENCY
+export GROCY_ENTRY_PAGE
 
 bashio::log.info "Starting PHP-FPM..."
 
-# General settings
-export GROCY_CULTURE=$(bashio::config "culture")
-export GROCY_CURRENCY=$(bashio::config "currency")
-export GROCY_ENTRY_PAGE=$(bashio::config 'entry_page')
-export GROCY_MODE=$(bashio::config "mode")
-export GROCY_ENERGY_UNIT=$(bashio::config "energy_unit")
-export GROCY_BASE_PATH=$(bashio::config "base_path")
-export GROCY_BASE_URL=$(bashio::config "base_url")
-export GROCY_STOCK_BARCODE_LOOKUP_PLUGIN=$(bashio::config "stock_barcode_lookup_plugin")
-export GROCY_AUTH_CLASS=$(bashio::config "auth_class")
-export GROCY_REVERSE_PROXY_AUTH_HEADER=$(bashio::config "reverse_proxy_auth_header")
-export GROCY_DEFAULT_PERMISSIONS=$(bashio::config 'default_permissions | join(",")')
-export GROCY_GROCYCODE_TYPE=$(bashio::config "grocycode_type")
+if bashio::config.false 'features.batteries'; then
+    export GROCY_FEATURE_FLAG_BATTERIES=0
+fi
 
-# Booleans with default true
-if bashio::config.false 'calendar_show_week_of_year'; then export GROCY_CALENDAR_SHOW_WEEK_OF_YEAR=0; fi
-if bashio::config.false 'label_printer_run_server'; then export GROCY_LABEL_PRINTER_RUN_SERVER=0; fi
-if bashio::config.false 'label_printer_hook_json'; then export GROCY_LABEL_PRINTER_HOOK_JSON=0; fi
-if bashio::config.false 'tprinter_print_quantity_name'; then export GROCY_TPRINTER_PRINT_QUANTITY_NAME=0; fi
-if bashio::config.false 'tprinter_print_notes'; then export GROCY_TPRINTER_PRINT_NOTES=0; fi
-if bashio::config.false 'feature_settings.auto_torch_on_with_camera'; then export GROCY_FEATURE_FLAG_AUTO_TORCH_ON_WITH_CAMERA=0; fi
+if bashio::config.false 'features.calendar'; then
+    export GROCY_FEATURE_FLAG_CALENDAR=0
+fi
 
-# Booleans with default false
-if bashio::config.true 'disable_url_rewriting'; then export GROCY_DISABLE_URL_REWRITING=1; fi
-if bashio::config.true 'disable_auth'; then export GROCY_DISABLE_AUTH=1; fi
-if bashio::config.true 'reverse_proxy_auth_use_env'; then export GROCY_REVERSE_PROXY_AUTH_USE_ENV=1; fi
-if bashio::config.true 'tprinter_is_network_printer'; then export GROCY_TPRINTER_IS_NETWORK_PRINTER=1; fi
+if bashio::config.false 'features.chores'; then
+    export GROCY_FEATURE_FLAG_CHORES=0
+fi
 
-# Feature flags with default true
-if bashio::config.false 'features.batteries'; then export GROCY_FEATURE_FLAG_BATTERIES=0; fi
-if bashio::config.false 'features.calendar'; then export GROCY_FEATURE_FLAG_CALENDAR=0; fi
-if bashio::config.false 'features.chores'; then export GROCY_FEATURE_FLAG_CHORES=0; fi
-if bashio::config.false 'features.equipment'; then export GROCY_FEATURE_FLAG_EQUIPMENT=0; fi
-if bashio::config.false 'features.recipes'; then export GROCY_FEATURE_FLAG_RECIPES=0; fi
-if bashio::config.false 'features.shoppinglist'; then export GROCY_FEATURE_FLAG_SHOPPINGLIST=0; fi
-if bashio::config.false 'features.stock'; then export GROCY_FEATURE_FLAG_STOCK=0; fi
-if bashio::config.false 'features.tasks'; then export GROCY_FEATURE_FLAG_TASKS=0; fi
+if bashio::config.false 'features.equipment'; then
+    export GROCY_FEATURE_FLAG_EQUIPMENT=0
+fi
 
-# Tweaks with default true
-if bashio::config.false 'tweaks.stock_price_tracking'; then export GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING=0; fi
-if bashio::config.false 'tweaks.stock_location_tracking'; then export GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING=0; fi
-if bashio::config.false 'tweaks.stock_best_before_date_tracking'; then export GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING=0; fi
-if bashio::config.false 'tweaks.stock_product_opened_tracking'; then export GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING=0; fi
-if bashio::config.false 'tweaks.stock_product_freezing'; then export GROCY_FEATURE_FLAG_STOCK_PRODUCT_FREEZING=0; fi
-if bashio::config.false 'tweaks.stock_best_before_date_field_number_pad'; then export GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_FIELD_NUMBER_PAD=0; fi
-if bashio::config.false 'tweaks.multiple_shopping_lists'; then export GROCY_FEATURE_FLAG_SHOPPINGLIST_MULTIPLE_LISTS=0; fi
-if bashio::config.false 'tweaks.recipes_mealplan'; then export GROCY_FEATURE_FLAG_RECIPES_MEALPLAN=0; fi
-if bashio::config.false 'tweaks.chores_assignment'; then export GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS=0; fi
-if bashio::config.false 'tweaks.stock_count_opened_products_against_minimum_stock_amount'; then export GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT=0; fi
+if bashio::config.false 'features.recipes'; then
+    export GROCY_FEATURE_FLAG_RECIPES=0
+fi
 
-# Feature flags with default false
-if bashio::config.true 'features.label_printer'; then export GROCY_FEATURE_FLAG_LABEL_PRINTER=1; fi
-if bashio::config.true 'tweaks.thermal_printer'; then export GROCY_FEATURE_FLAG_THERMAL_PRINTER=1; fi
-if bashio::config.true 'feature_settings.disable_browser_barcode_camera_scanning'; then export GROCY_FEATURE_FLAG_DISABLE_BROWSER_BARCODE_CAMERA_SCANNING=1; fi
+if bashio::config.false 'features.shoppinglist'; then
+    export GROCY_FEATURE_FLAG_SHOPPINGLIST=0
+fi
 
-# Default user settings - booleans with default true
-if bashio::config.false 'default_user_settings.auto_night_mode_time_range_goes_over_midnight'; then export GROCY_DEFAULT_USER_SETTING_auto_night_mode_time_range_goes_over_midnight=0; fi
-if bashio::config.false 'default_user_settings.product_presets_treat_opened_as_out_of_stock'; then export GROCY_DEFAULT_USER_SETTING_product_presets_treat_opened_as_out_of_stock=0; fi
-if bashio::config.false 'default_user_settings.show_icon_on_stock_overview_page_when_product_is_on_shopping_list'; then export GROCY_DEFAULT_USER_SETTING_show_icon_on_stock_overview_page_when_product_is_on_shopping_list=0; fi
-if bashio::config.false 'default_user_settings.show_warning_on_purchase_when_due_date_is_earlier_than_next'; then export GROCY_DEFAULT_USER_SETTING_show_warning_on_purchase_when_due_date_is_earlier_than_next=0; fi
-if bashio::config.false 'default_user_settings.shopping_list_print_show_header'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_print_show_header=0; fi
-if bashio::config.false 'default_user_settings.shopping_list_print_group_by_product_group'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_print_group_by_product_group=0; fi
-if bashio::config.false 'default_user_settings.recipes_show_list_side_by_side'; then export GROCY_DEFAULT_USER_SETTING_recipes_show_list_side_by_side=0; fi
+if bashio::config.false 'features.stock'; then
+    export GROCY_FEATURE_FLAG_STOCK=0
+fi
 
-# Default user settings - booleans with default false
-if bashio::config.true 'default_user_settings.auto_night_mode_enabled'; then export GROCY_DEFAULT_USER_SETTING_auto_night_mode_enabled=1; fi
-if bashio::config.true 'default_user_settings.night_mode_enabled_internal'; then export GROCY_DEFAULT_USER_SETTING_night_mode_enabled_internal=1; fi
-if bashio::config.true 'default_user_settings.auto_reload_on_db_change'; then export GROCY_DEFAULT_USER_SETTING_auto_reload_on_db_change=1; fi
-if bashio::config.true 'default_user_settings.show_clock_in_header'; then export GROCY_DEFAULT_USER_SETTING_show_clock_in_header=1; fi
-if bashio::config.true 'default_user_settings.keep_screen_on'; then export GROCY_DEFAULT_USER_SETTING_keep_screen_on=1; fi
-if bashio::config.true 'default_user_settings.keep_screen_on_when_fullscreen_card'; then export GROCY_DEFAULT_USER_SETTING_keep_screen_on_when_fullscreen_card=1; fi
-if bashio::config.true 'default_user_settings.stock_auto_decimal_separator_prices'; then export GROCY_DEFAULT_USER_SETTING_stock_auto_decimal_separator_prices=1; fi
-if bashio::config.true 'default_user_settings.stock_default_consume_amount_use_quick_consume_amount'; then export GROCY_DEFAULT_USER_SETTING_stock_default_consume_amount_use_quick_consume_amount=1; fi
-if bashio::config.true 'default_user_settings.scan_mode_consume_enabled'; then export GROCY_DEFAULT_USER_SETTING_scan_mode_consume_enabled=1; fi
-if bashio::config.true 'default_user_settings.scan_mode_purchase_enabled'; then export GROCY_DEFAULT_USER_SETTING_scan_mode_purchase_enabled=1; fi
-if bashio::config.true 'default_user_settings.stock_overview_show_all_out_of_stock_products'; then export GROCY_DEFAULT_USER_SETTING_stock_overview_show_all_out_of_stock_products=1; fi
-if bashio::config.true 'default_user_settings.show_purchased_date_on_purchase'; then export GROCY_DEFAULT_USER_SETTING_show_purchased_date_on_purchase=1; fi
-if bashio::config.true 'default_user_settings.shopping_list_to_stock_workflow_auto_submit_when_prefilled'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_to_stock_workflow_auto_submit_when_prefilled=1; fi
-if bashio::config.true 'default_user_settings.shopping_list_show_calendar'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_show_calendar=1; fi
-if bashio::config.true 'default_user_settings.shopping_list_round_up'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_round_up=1; fi
-if bashio::config.true 'default_user_settings.shopping_list_auto_add_below_min_stock_amount'; then export GROCY_DEFAULT_USER_SETTING_shopping_list_auto_add_below_min_stock_amount=1; fi
-if bashio::config.true 'default_user_settings.recipe_ingredients_group_by_product_group'; then export GROCY_DEFAULT_USER_SETTING_recipe_ingredients_group_by_product_group=1; fi
-if bashio::config.true 'default_user_settings.recipes_show_ingredient_checkbox'; then export GROCY_DEFAULT_USER_SETTING_recipes_show_ingredient_checkbox=1; fi
-if bashio::config.true 'default_user_settings.chores_overview_swap_tracking_buttons'; then export GROCY_DEFAULT_USER_SETTING_chores_overview_swap_tracking_buttons=1; fi
+if bashio::config.false 'features.tasks'; then
+    export GROCY_FEATURE_FLAG_TASKS=0
+fi
 
-# Default user settings - string/int values
-export GROCY_DEFAULT_USER_SETTING_night_mode=$(bashio::config "default_user_settings.night_mode")
-export GROCY_DEFAULT_USER_SETTING_auto_night_mode_time_range_from=$(bashio::config "default_user_settings.auto_night_mode_time_range_from")
-export GROCY_DEFAULT_USER_SETTING_auto_night_mode_time_range_to=$(bashio::config "default_user_settings.auto_night_mode_time_range_to")
-export GROCY_DEFAULT_USER_SETTING_product_presets_location_id=$(bashio::config "default_user_settings.product_presets_location_id")
-export GROCY_DEFAULT_USER_SETTING_product_presets_product_group_id=$(bashio::config "default_user_settings.product_presets_product_group_id")
-export GROCY_DEFAULT_USER_SETTING_product_presets_qu_id=$(bashio::config "default_user_settings.product_presets_qu_id")
-export GROCY_DEFAULT_USER_SETTING_product_presets_default_due_days=$(bashio::config "default_user_settings.product_presets_default_due_days")
-export GROCY_DEFAULT_USER_SETTING_product_presets_default_stock_label_type=$(bashio::config "default_user_settings.product_presets_default_stock_label_type")
-export GROCY_DEFAULT_USER_SETTING_stock_decimal_places_amounts=$(bashio::config "default_user_settings.stock_decimal_places_amounts")
-export GROCY_DEFAULT_USER_SETTING_stock_decimal_places_prices_input=$(bashio::config "default_user_settings.stock_decimal_places_prices_input")
-export GROCY_DEFAULT_USER_SETTING_stock_decimal_places_prices_display=$(bashio::config "default_user_settings.stock_decimal_places_prices_display")
-export GROCY_DEFAULT_USER_SETTING_stock_due_soon_days=$(bashio::config "default_user_settings.stock_due_soon_days")
-export GROCY_DEFAULT_USER_SETTING_stock_default_purchase_amount=$(bashio::config "default_user_settings.stock_default_purchase_amount")
-export GROCY_DEFAULT_USER_SETTING_stock_default_consume_amount=$(bashio::config "default_user_settings.stock_default_consume_amount")
-export GROCY_DEFAULT_USER_SETTING_shopping_list_auto_add_below_min_stock_amount_list_id=$(bashio::config "default_user_settings.shopping_list_auto_add_below_min_stock_amount_list_id")
-export GROCY_DEFAULT_USER_SETTING_shopping_list_print_layout_type=$(bashio::config "default_user_settings.shopping_list_print_layout_type")
-export GROCY_DEFAULT_USER_SETTING_chores_due_soon_days=$(bashio::config "default_user_settings.chores_due_soon_days")
-export GROCY_DEFAULT_USER_SETTING_batteries_due_soon_days=$(bashio::config "default_user_settings.batteries_due_soon_days")
-export GROCY_DEFAULT_USER_SETTING_tasks_due_soon_days=$(bashio::config "default_user_settings.tasks_due_soon_days")
-export GROCY_DEFAULT_USER_SETTING_calendar_color_products=$(bashio::config "default_user_settings.calendar_color_products")
-export GROCY_DEFAULT_USER_SETTING_calendar_color_tasks=$(bashio::config "default_user_settings.calendar_color_tasks")
-export GROCY_DEFAULT_USER_SETTING_calendar_color_chores=$(bashio::config "default_user_settings.calendar_color_chores")
-export GROCY_DEFAULT_USER_SETTING_calendar_color_batteries=$(bashio::config "default_user_settings.calendar_color_batteries")
-export GROCY_DEFAULT_USER_SETTING_calendar_color_meal_plan=$(bashio::config "default_user_settings.calendar_color_meal_plan")
-
-# Optional values
 if bashio::config.has_value 'tweaks.calendar_first_day_of_week'; then
     caldayweek=$(bashio::config 'tweaks.calendar_first_day_of_week')
     export GROCY_CALENDAR_FIRST_DAY_OF_WEEK=${caldayweek}
 fi
+
+if bashio::config.false 'tweaks.chores_assignment'; then
+    export GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS=0
+fi
+
 if bashio::config.has_value 'tweaks.meal_plan_first_day_of_week'; then
     mealday=$(bashio::config 'tweaks.meal_plan_first_day_of_week')
     export GROCY_MEAL_PLAN_FIRST_DAY_OF_WEEK=${mealday}
 fi
-if bashio::config.has_value 'ldap_address'; then export GROCY_LDAP_ADDRESS=$(bashio::config 'ldap_address'); fi
-if bashio::config.has_value 'ldap_base_dn'; then export GROCY_LDAP_BASE_DN=$(bashio::config 'ldap_base_dn'); fi
-if bashio::config.has_value 'ldap_bind_dn'; then export GROCY_LDAP_BIND_DN=$(bashio::config 'ldap_bind_dn'); fi
-if bashio::config.has_value 'ldap_bind_pw'; then export GROCY_LDAP_BIND_PW=$(bashio::config 'ldap_bind_pw'); fi
-if bashio::config.has_value 'ldap_user_filter'; then export GROCY_LDAP_USER_FILTER=$(bashio::config 'ldap_user_filter'); fi
-if bashio::config.has_value 'ldap_uid_attr'; then export GROCY_LDAP_UID_ATTR=$(bashio::config 'ldap_uid_attr'); fi
-if bashio::config.has_value 'label_printer_webhook'; then export GROCY_LABEL_PRINTER_WEBHOOK=$(bashio::config 'label_printer_webhook'); fi
-if bashio::config.has_value 'label_printer_params'; then export GROCY_LABEL_PRINTER_PARAMS=$(bashio::config 'label_printer_params'); fi
-if bashio::config.has_value 'tprinter_ip'; then export GROCY_TPRINTER_IP=$(bashio::config 'tprinter_ip'); fi
-if bashio::config.has_value 'tprinter_port'; then export GROCY_TPRINTER_PORT=$(bashio::config 'tprinter_port'); fi
-if bashio::config.has_value 'tprinter_connector'; then export GROCY_TPRINTER_CONNECTOR=$(bashio::config 'tprinter_connector'); fi
+
+if bashio::config.false 'tweaks.multiple_shopping_lists'; then
+    export GROCY_FEATURE_FLAG_SHOPPINGLIST_MULTIPLE_LISTS=0
+fi
+
+if bashio::config.false 'tweaks.stock_best_before_date_tracking'; then
+    export GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING=0
+fi
+
+if bashio::config.false 'tweaks.stock_location_tracking'; then
+    export GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING=0
+fi
+
+if bashio::config.false 'tweaks.stock_price_tracking'; then
+    export GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING=0
+fi
+
+if bashio::config.false 'tweaks.stock_product_freezing'; then
+    export GROCY_FEATURE_FLAG_STOCK_PRODUCT_FREEZING=0
+fi
+
+if bashio::config.false 'tweaks.stock_product_opened_tracking'; then
+    export GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING=0
+fi
+
+if bashio::config.false 'tweaks.stock_count_opened_products_against_minimum_stock_amount'; then
+    export GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT=0
+fi
+
+GROCY_CULTURE=$(bashio::config "culture")
+GROCY_CURRENCY=$(bashio::config "currency")
+GROCY_ENTRY_PAGE=$(bashio::config 'entry_page')
 
 exec php-fpm82 -R --nodaemonize
